@@ -1,15 +1,14 @@
 package com.guild.api.demo.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/logistics")
 public class LogisticsController {
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getLogistics() {
+    @GetMapping(value = "/logistics/{logisticsId}")
+    public String getLogistics(@PathVariable String logisticsId) {
         return "Logistics: sf-express";
     }
 

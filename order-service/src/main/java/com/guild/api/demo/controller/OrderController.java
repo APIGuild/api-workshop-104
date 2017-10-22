@@ -1,14 +1,40 @@
 package com.guild.api.demo.controller;
 
+import static com.guild.api.demo.constant.DefaultValues.CONTENT_TYPE;
+import static com.guild.api.demo.constant.DefaultValues.ORDER_ID_LENGTH_MESSAGE;
+import static com.guild.api.demo.constant.DefaultValues.ORDER_ID_MAX_LENGTH;
+import static com.guild.api.demo.constant.DefaultValues.ORDER_ID_MIN_LENGTH;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_GATEWAY;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
+
+import javax.validation.constraints.Size;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import com.guild.api.demo.controller.dto.OrderDto;
+import com.guild.api.demo.controller.dto.ResourceDto;
+import com.guild.api.demo.controller.dto.ResponseWrapper;
+import com.guild.api.demo.controller.error.Errors;
 import com.guild.api.demo.service.CustomerService;
 import com.guild.api.demo.service.LogisticsService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
-@RequestMapping(value = "/orders", produces = "application/json")
+@Api(tags = "Order Service", description = "Operations on Orders")
+@Validated
 public class OrderController {
 
     @Autowired
@@ -18,8 +44,35 @@ public class OrderController {
     private LogisticsService logisticsService;
 
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getOrder() {
-        return "V2: order id: XXX" + customerService.getCustomer() + ", " + logisticsService.getLogistics();
+    @GetMapping(value = "/orders/{orderId}", produces = CONTENT_TYPE)
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Retrieve Order", notes = "This is the retrieve order endpoint. More descriptions...", produces = CONTENT_TYPE)
+    @ApiResponses({
+            @ApiResponse(code = SC_NOT_FOUND, response = Errors.class, message = "Order not found"),
+            @ApiResponse(code = SC_BAD_REQUEST, response = Errors.class, message = "Invalid path parameters."),
+            @ApiResponse(code = SC_BAD_GATEWAY, response = Errors.class, message = "Error returned from downstream API."),
+            @ApiResponse(code = SC_SERVICE_UNAVAILABLE, response = Errors.class, message = "Unable to communicate with downstream API."),
+            @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, response = Errors.class, message = "Internal server error.")
+    })
+    public ResponseWrapper<OrderDto> retrieveOrder(@ApiParam(value = "Order ID", required = true)
+                                                   @Size(min = ORDER_ID_MIN_LENGTH, max = ORDER_ID_MAX_LENGTH, message = ORDER_ID_LENGTH_MESSAGE)
+                                                   @PathVariable String orderId) {
+        ResponseWrapper<OrderDto> order = fakeOrder(orderId);
+
+        String customer = customerService.getCustomer("123");
+        String logistics = logisticsService.getLogistics("456");
+        order.getData().getAttributes().setDescription(customer + " | " + logistics);
+
+        return order;
+    }
+
+    private ResponseWrapper<OrderDto> fakeOrder(String orderId) {
+        OrderDto orderDto = new OrderDto("My Order", "2017-10-20 10:42:55", "ID12345", "sf1234567");
+        ResponseWrapper<OrderDto> response = new ResponseWrapper<>();
+        ResourceDto<OrderDto> resourceData = new ResourceDto<>();
+        resourceData.setAttributes(orderDto);
+        resourceData.setId(orderId);
+        response.setData(resourceData);
+        return response;
     }
 }
