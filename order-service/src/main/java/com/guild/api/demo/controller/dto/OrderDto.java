@@ -18,20 +18,20 @@ public class OrderDto {
     @ApiModelProperty(value = "Order Time", example = "2017-10-20 10:42:55")
     private String time;
 
-    @ApiModelProperty(value = "Customer Id", example = "123456789")
-    private String customerId;
-
-    @ApiModelProperty(value = "Logistics Id", example = "abc1234356xyz")
-    private String logisticsId;
-
     @ApiModelProperty(value = "Order Description", example = "Description")
     private String description;
 
-    public OrderDto(String title, String time, String customerId, String logisticsId) {
+    @ApiModelProperty(value = "Customer Description", example = "Customer")
+    private String customer;
+
+    @ApiModelProperty(value = "Logistics Description", example = "Logistics")
+    private String logistics;
+
+    public OrderDto(String title, String time, String customer, String logistics) {
         this.title = title;
         this.time = time;
-        this.customerId = customerId;
-        this.logisticsId = logisticsId;
+        this.customer = customer;
+        this.logistics = logistics;
     }
 
     public String getTitle() {
@@ -42,12 +42,12 @@ public class OrderDto {
         return time;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public String getCustomer() {
+        return customer;
     }
 
-    public String getLogisticsId() {
-        return logisticsId;
+    public String getLogistics() {
+        return logistics;
     }
 
     public String getDescription() {

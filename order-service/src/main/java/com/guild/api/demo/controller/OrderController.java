@@ -20,11 +20,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.guild.api.demo.controller.dto.OrderDto;
-import com.guild.api.demo.controller.dto.ResourceDto;
 import com.guild.api.demo.controller.dto.ResponseWrapper;
 import com.guild.api.demo.controller.error.Errors;
-import com.guild.api.demo.service.CustomerService;
-import com.guild.api.demo.service.LogisticsService;
+import com.guild.api.demo.controller.translator.OrderTranslator;
+import com.guild.api.demo.service.OrderService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,11 +37,10 @@ import io.swagger.annotations.ApiResponses;
 public class OrderController {
 
     @Autowired
-    private CustomerService customerService;
+    private OrderService orderService;
 
     @Autowired
-    private LogisticsService logisticsService;
-
+    private OrderTranslator orderTranslator;
 
     @GetMapping(value = "/orders/{orderId}", produces = CONTENT_TYPE)
     @ResponseStatus(HttpStatus.OK)
@@ -57,22 +55,6 @@ public class OrderController {
     public ResponseWrapper<OrderDto> retrieveOrder(@ApiParam(value = "Order ID", required = true)
                                                    @Size(min = ORDER_ID_MIN_LENGTH, max = ORDER_ID_MAX_LENGTH, message = ORDER_ID_LENGTH_MESSAGE)
                                                    @PathVariable String orderId) {
-        ResponseWrapper<OrderDto> order = fakeOrder(orderId);
-
-        String customer = customerService.getCustomer("123");
-        String logistics = logisticsService.getLogistics("456");
-        order.getData().getAttributes().setDescription(customer + " | " + logistics);
-
-        return order;
-    }
-
-    private ResponseWrapper<OrderDto> fakeOrder(String orderId) {
-        OrderDto orderDto = new OrderDto("My Order", "2017-10-20 10:42:55", "ID12345", "sf1234567");
-        ResponseWrapper<OrderDto> response = new ResponseWrapper<>();
-        ResourceDto<OrderDto> resourceData = new ResourceDto<>();
-        resourceData.setAttributes(orderDto);
-        resourceData.setId(orderId);
-        response.setData(resourceData);
-        return response;
+        return orderTranslator.translate(orderService.getOrder(orderId));
     }
 }

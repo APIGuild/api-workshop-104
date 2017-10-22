@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class LogisticsController {
 
     @GetMapping(value = "/logistics/{logisticsId}")
-    public String getLogistics(@PathVariable String logisticsId) {
-        return "Logistics: sf-express";
+    public String getLogistics(@PathVariable String logisticsId) throws InterruptedException {
+        Thread.sleep(2000);
+        return "{Id: LT123456, Logistics: sf-express}";
     }
 
 }
