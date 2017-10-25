@@ -9,7 +9,7 @@ public class LogisticsController {
 
     @GetMapping(value = "/logistics/{logisticsId}")
     public String getLogistics(@PathVariable String logisticsId) throws InterruptedException {
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         return String.format("{Id: %s, Logistics: sf-express}", logisticsId);
     }
 

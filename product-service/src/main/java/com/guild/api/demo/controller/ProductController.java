@@ -9,7 +9,7 @@ public class ProductController {
 
     @GetMapping(value = "/products/{productId}")
     public String getProduct(@PathVariable String productId) throws InterruptedException {
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         return String.format("{Id: %s, Name: Mac Book 15}", productId);
     }
 

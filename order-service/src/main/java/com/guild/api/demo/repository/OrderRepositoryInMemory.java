@@ -13,7 +13,7 @@ public class OrderRepositoryInMemory implements OrderRepository {
     public OrderRepositoryInMemory() {
         OrderEntity order = new OrderEntity();
         order.setOrderId("1234567890");
-        order.setOrderTitle("My test order");
+        order.setOrderTitle("Order Title");
         order.setDescription("This is the order description");
         order.setOrderTime("2017-10-20 10:42:55");
         order.setUserId("ID123456");
@@ -25,7 +25,7 @@ public class OrderRepositoryInMemory implements OrderRepository {
     @Override
     public OrderEntity getOrder(String orderId) {
         try {
-            Thread.sleep(500);
+            Thread.sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -12,6 +12,14 @@
 #### How to start a continuous build
 
 ```
-./gradlew build --continuous  
+./gradlew build --continuous
 ```
+
+## Workshop Steps
+
+#### Hystrix Fallback
+
+
+#### RxJava Asynchronous
+
 
