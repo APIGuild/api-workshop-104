@@ -16,8 +16,9 @@ public class OrderRepositoryInMemory implements OrderRepository {
         order.setOrderTitle("My test order");
         order.setDescription("This is the order description");
         order.setOrderTime("2017-10-20 10:42:55");
-        order.setCustomerId("ID123456");
+        order.setUserId("ID123456");
         order.setLogisticsId("LT123456");
+        order.setProductId("PD123456");
         this.orderEntityMap.put(order.getOrderId(), order);
     }
 

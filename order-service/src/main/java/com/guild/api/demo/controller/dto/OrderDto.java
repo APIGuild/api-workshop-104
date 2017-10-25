@@ -18,36 +18,32 @@ public class OrderDto {
     @ApiModelProperty(value = "Order Time", example = "2017-10-20 10:42:55")
     private String time;
 
-    @ApiModelProperty(value = "Order Description", example = "Description")
+    @ApiModelProperty(value = "Order Description", example = "Order Description")
     private String description;
 
-    @ApiModelProperty(value = "Customer Description", example = "Customer")
-    private String customer;
+    @ApiModelProperty(value = "User Description", example = "John Smith...")
+    private String user;
 
-    @ApiModelProperty(value = "Logistics Description", example = "Logistics")
+    @ApiModelProperty(value = "Logistics Description", example = "sf-express...")
     private String logistics;
 
-    public OrderDto(String title, String time, String customer, String logistics) {
-        this.title = title;
-        this.time = time;
-        this.customer = customer;
-        this.logistics = logistics;
-    }
+    @ApiModelProperty(value = "Product Description", example = "Mac Book 15...")
+    private String product;
 
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getTime() {
         return time;
     }
 
-    public String getCustomer() {
-        return customer;
-    }
-
-    public String getLogistics() {
-        return logistics;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getDescription() {
@@ -56,5 +52,29 @@ public class OrderDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getLogistics() {
+        return logistics;
+    }
+
+    public void setLogistics(String logistics) {
+        this.logistics = logistics;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public void setProduct(String product) {
+        this.product = product;
     }
 }

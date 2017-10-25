@@ -3,8 +3,9 @@
 #### How to run the services
 
 ```
-./gradlew :customer-service:bootRun
+./gradlew :user-service:bootRun
 ./gradlew :logistics-service:bootRun
+./gradlew :product-service:bootRun
 ./gradlew :order-service:bootRun
 ```
 

@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LogisticsController {
+public class ProductController {
 
-    @GetMapping(value = "/logistics/{logisticsId}")
-    public String getLogistics(@PathVariable String logisticsId) throws InterruptedException {
+    @GetMapping(value = "/products/{productId}")
+    public String getProduct(@PathVariable String productId) throws InterruptedException {
         Thread.sleep(2000);
-        return String.format("{Id: %s, Logistics: sf-express}", logisticsId);
+        return String.format("{Id: %s, Name: Mac Book 15}", productId);
     }
 
 }

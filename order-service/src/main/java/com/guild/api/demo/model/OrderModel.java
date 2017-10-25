@@ -5,8 +5,9 @@ public class OrderModel {
     private String orderTitle;
     private String orderTime;
     private String description;
-    private CustomerModel customer;
+    private UserModel user;
     private LogisticsModel logistics;
+    private ProductModel product;
 
     public String getOrderId() {
         return orderId;
@@ -40,12 +41,12 @@ public class OrderModel {
         this.description = description;
     }
 
-    public CustomerModel getCustomer() {
-        return customer;
+    public UserModel getUser() {
+        return user;
     }
 
-    public void setCustomer(CustomerModel customer) {
-        this.customer = customer;
+    public void setUser(UserModel user) {
+        this.user = user;
     }
 
     public LogisticsModel getLogistics() {
@@ -54,5 +55,13 @@ public class OrderModel {
 
     public void setLogistics(LogisticsModel logistics) {
         this.logistics = logistics;
+    }
+
+    public void setProduct(ProductModel product) {
+        this.product = product;
+    }
+
+    public ProductModel getProduct() {
+        return product;
     }
 }

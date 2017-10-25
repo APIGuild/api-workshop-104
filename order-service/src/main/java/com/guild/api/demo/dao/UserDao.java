@@ -8,22 +8,22 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
-public class LogisticsDao {
+public class UserDao {
+
     private RestTemplate restTemplate;
 
-    @Value("${logistics.service.baseUrl}")
+    @Value("${user.service.baseUrl}")
     private String baseUrl;
 
-    public LogisticsDao(RestTemplate restTemplate) {
+    public UserDao(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-
-    public String getLogistics(String logisticsId) {
+    public String getUser(String userId) {
         UriComponents builder = UriComponentsBuilder
                 .fromHttpUrl(baseUrl)
-                .path("/logistics/")
-                .path(logisticsId)
+                .path("/users/")
+                .path(userId)
                 .build();
         return restTemplate.getForEntity(builder.toString(), String.class).getBody();
     }

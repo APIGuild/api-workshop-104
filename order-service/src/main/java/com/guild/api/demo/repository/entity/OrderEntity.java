@@ -4,9 +4,10 @@ public class OrderEntity {
     private String orderId;
     private String orderTitle;
     private String orderTime;
-    private String customerId;
+    private String userId;
     private String logisticsId;
     private String description;
+    private String productId;
 
     public String getOrderId() {
         return orderId;
@@ -32,12 +33,12 @@ public class OrderEntity {
         this.orderTime = orderTime;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getLogisticsId() {
@@ -54,5 +55,13 @@ public class OrderEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 }

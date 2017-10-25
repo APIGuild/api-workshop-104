@@ -1,5 +1,6 @@
 rootProject.name = 'api-workshop-104'
-include 'customer-service'
+include 'user-service'
 include 'logistics-service'
+include 'product-service'
 include 'order-service'
 

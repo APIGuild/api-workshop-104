@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LogisticsController {
+public class UserController {
 
-    @GetMapping(value = "/logistics/{logisticsId}")
-    public String getLogistics(@PathVariable String logisticsId) throws InterruptedException {
+    @GetMapping(value = "/users/{userId}")
+    public String getUser(@PathVariable String userId) throws InterruptedException {
         Thread.sleep(2000);
-        return String.format("{Id: %s, Logistics: sf-express}", logisticsId);
+        return String.format("{Id: %s, Name: James}", userId);
     }
 
 }
