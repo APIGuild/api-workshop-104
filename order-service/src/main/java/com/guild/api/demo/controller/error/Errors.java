@@ -7,21 +7,17 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.swagger.annotations.ApiModel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
+@AllArgsConstructor
 @ApiModel(value = "Errors")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Errors {
     private final List<Error> errors;
 
-    public Errors(List<Error> errors) {
-        this.errors = errors;
-    }
-
     public Errors(Error... errors) {
         this(asList(errors));
-    }
-
-    public List<Error> getErrors() {
-        return errors;
     }
 }

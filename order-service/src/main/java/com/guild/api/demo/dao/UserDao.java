@@ -26,7 +26,7 @@ public class UserDao {
         return restTemplate.getForEntity(url, String.class).getBody();
     }
 
-    public String reliable() {
-        return "Reliable user";
+    public String reliable(String userId) {
+        return String.format("User service is unavailable for now. Couldn't find the user: %s", userId);
     }
 }

@@ -9,14 +9,12 @@ import com.guild.api.demo.model.OrderModel;
 @Component
 public class OrderTranslator {
     public ResponseWrapper<OrderDto> translate(OrderModel order) {
-        ResponseWrapper<OrderDto> response = new ResponseWrapper<>();
         ResourceDto<OrderDto> resourceData = new ResourceDto<>();
         if (order != null) {
             resourceData.setAttributes(buildOrder(order));
             resourceData.setId(order.getOrderId());
         }
-        response.setData(resourceData);
-        return response;
+        return new ResponseWrapper<>(resourceData);
     }
 
     private OrderDto buildOrder(OrderModel order) {

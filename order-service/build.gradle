@@ -6,6 +6,7 @@ dependencies {
 	compile('io.springfox:springfox-swagger-ui:2.7.0')
 	compile('io.reactivex.rxjava2:rxjava:2.1.5')
 	runtime('org.springframework.boot:spring-boot-devtools')
+	compileOnly('org.projectlombok:lombok:1.16.18')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 

@@ -1,19 +1,11 @@
 package com.guild.api.demo.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public class LogisticsModel {
     private String logisticsId;
     private String description;
-
-    public LogisticsModel(String logisticsId, String description) {
-        this.logisticsId = logisticsId;
-        this.description = description;
-    }
-
-    public String getLogisticsId() {
-        return logisticsId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 }

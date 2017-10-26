@@ -7,7 +7,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+@Data
 @JsonInclude(NON_EMPTY)
 @JsonPropertyOrder({"meta", "id", "type", "attributes"})
 public class ResourceDto<T> {
@@ -25,37 +29,12 @@ public class ResourceDto<T> {
     private T attributes;
 
     @JsonInclude(NON_EMPTY)
+    @Getter
+    @Setter
     public static class Meta {
         @ApiModelProperty(value = "Resource Version", required = true)
         @JsonProperty("ETag")
         private Integer eTag;
     }
 
-    public Meta getMeta() {
-        return meta;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public T getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(T attributes) {
-        this.attributes = attributes;
-    }
 }

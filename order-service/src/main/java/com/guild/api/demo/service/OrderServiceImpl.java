@@ -9,10 +9,10 @@ import com.guild.api.demo.dao.LogisticsDao;
 import com.guild.api.demo.dao.ProductDao;
 import com.guild.api.demo.dao.UserDao;
 import com.guild.api.demo.exception.ResourceNotFound;
-import com.guild.api.demo.model.UserModel;
 import com.guild.api.demo.model.LogisticsModel;
 import com.guild.api.demo.model.OrderModel;
 import com.guild.api.demo.model.ProductModel;
+import com.guild.api.demo.model.UserModel;
 import com.guild.api.demo.repository.OrderRepository;
 import com.guild.api.demo.repository.entity.OrderEntity;
 
