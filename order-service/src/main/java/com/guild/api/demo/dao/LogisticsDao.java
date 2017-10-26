@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import com.guild.api.demo.model.LogisticsModel;
 
 @Component
 public class LogisticsDao {
@@ -16,11 +17,12 @@ public class LogisticsDao {
     @Value("${logistics.service.baseUrl}")
     private String baseUrl;
 
-    public String getLogistics(String logisticsId) {
+    public LogisticsModel getLogistics(String logisticsId) {
         String url = UriComponentsBuilder
                 .fromPath(RETRIEVE_LOGISTICS_URL)
                 .buildAndExpand(baseUrl, logisticsId)
                 .toString();
-        return restTemplate.getForEntity(url, String.class).getBody();
+        String logisticsInfo = restTemplate.getForEntity(url, String.class).getBody();
+        return new LogisticsModel(logisticsId, logisticsInfo);
     }
 }

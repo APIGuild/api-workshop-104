@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import com.guild.api.demo.model.ProductModel;
 
 @Component
 public class ProductDao {
@@ -16,12 +17,13 @@ public class ProductDao {
     @Value("${product.service.baseUrl}")
     private String baseUrl;
 
-    public String getProduct(String productId) {
+    public ProductModel getProduct(String productId) {
         String url = UriComponentsBuilder
                 .fromPath(RETRIEVE_PRODUCT_URL)
                 .buildAndExpand(baseUrl, productId)
                 .toString();
-        return restTemplate.getForEntity(url, String.class).getBody();
+        String productInfo = restTemplate.getForEntity(url, String.class).getBody();
+        return new ProductModel(productId, productInfo);
     }
 
 }

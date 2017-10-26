@@ -8,8 +8,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
 @JsonInclude(NON_EMPTY)
@@ -29,8 +27,6 @@ public class ResourceDto<T> {
     private T attributes;
 
     @JsonInclude(NON_EMPTY)
-    @Getter
-    @Setter
     public static class Meta {
         @ApiModelProperty(value = "Resource Version", required = true)
         @JsonProperty("ETag")

@@ -15,6 +15,7 @@ import com.guild.api.demo.model.ProductModel;
 import com.guild.api.demo.model.UserModel;
 import com.guild.api.demo.repository.OrderRepository;
 import com.guild.api.demo.repository.entity.OrderEntity;
+import com.guild.api.demo.service.mapper.OrderModelMapper;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -31,34 +32,21 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    private OrderModelMapper orderMapper = new OrderModelMapper();
+
     @Override
     public OrderModel getOrder(String orderId) {
         OrderEntity orderEntity = ofNullable(orderRepository.getOrder(orderId))
                 .orElseThrow(() -> new ResourceNotFound(format("Order ID <%s> Not Found!", orderId)));
+        OrderModel orderModel = orderMapper.map(orderEntity, OrderModel.class);
 
-        OrderModel orderModel = new OrderModel();
+        UserModel user = userDao.getUser(orderEntity.getUserId());
+        LogisticsModel logistics = logisticsDao.getLogistics(orderEntity.getLogisticsId());
+        ProductModel product = productDao.getProduct(orderEntity.getProductId());
 
-
-        // Map and auto generate setter getter
-        orderModel.setOrderId(orderEntity.getOrderId());
-        orderModel.setOrderTitle(orderEntity.getOrderTitle());
-        orderModel.setOrderTime(orderEntity.getOrderTime());
-        orderModel.setDescription(orderEntity.getDescription());
-
-        String userId = orderEntity.getUserId();
-        String logisticsId = orderEntity.getLogisticsId();
-        String productId = orderEntity.getProductId();
-
-        String userInfo = userDao.getUser(userId);
-
-        String logisticsInfo = logisticsDao.getLogistics(logisticsId);
-
-        String productInfo = productDao.getProduct(productId);
-
-        orderModel.setUser(new UserModel(userId, userInfo));
-        orderModel.setLogistics(new LogisticsModel(logisticsId, logisticsInfo));
-        orderModel.setProduct(new ProductModel(productId, productInfo));
-
+        orderModel.setUser(user);
+        orderModel.setLogistics(logistics);
+        orderModel.setProduct(product);
         return orderModel;
     }
 }
