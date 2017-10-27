@@ -21,9 +21,6 @@ import com.guild.api.demo.service.assembler.UserAssembler;
 import com.guild.api.demo.service.mapper.OrderModelMapper;
 import com.guild.api.demo.util.rxjava.AsyncResult;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
