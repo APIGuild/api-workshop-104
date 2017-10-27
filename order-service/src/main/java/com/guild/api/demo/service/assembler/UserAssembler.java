@@ -10,7 +10,7 @@ public class UserAssembler implements BiFunction<OrderModel, AsyncResult<UserMod
     @Override
     public OrderModel apply(OrderModel orderModel, AsyncResult<UserModel> asyncResult) throws Exception {
         if (asyncResult.hasException()) {
-            throw new RuntimeException("User Error!");
+            throw new RuntimeException("User Error!", asyncResult.getException());
         }
         orderModel.setUser(asyncResult.getValue());
         return orderModel;

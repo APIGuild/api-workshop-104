@@ -11,7 +11,7 @@ public class LogisticsAssembler implements BiFunction<OrderModel, AsyncResult<Lo
     @Override
     public OrderModel apply(OrderModel orderModel, AsyncResult<LogisticsModel> asyncResult) throws Exception {
         if (asyncResult.hasException()) {
-            throw new RuntimeException("Logistics Error!");
+            throw new RuntimeException("Logistics Error!", asyncResult.getException());
         }
         orderModel.setLogistics(asyncResult.getValue());
         return orderModel;

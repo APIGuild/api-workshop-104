@@ -17,7 +17,7 @@
 
 ## Workshop Steps
 
-#### Hystrix Fallback
+#### Hystrix
 
 
 #### RxJava Asynchronous

@@ -10,7 +10,7 @@ public class ProductAssembler implements BiFunction<OrderModel, AsyncResult<Prod
     @Override
     public OrderModel apply(OrderModel orderModel, AsyncResult<ProductModel> asyncResult) throws Exception {
         if (asyncResult.hasException()) {
-            throw new RuntimeException("Product Error!");
+            throw new RuntimeException("Product Error!", asyncResult.getException());
         }
         orderModel.setProduct(asyncResult.getValue());
         return orderModel;
