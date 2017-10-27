@@ -1,5 +1,6 @@
 package com.guild.api.demo.service;
 
+import static com.guild.api.demo.util.rxjava.AsyncTemplate.async;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 
@@ -15,7 +16,13 @@ import com.guild.api.demo.model.ProductModel;
 import com.guild.api.demo.model.UserModel;
 import com.guild.api.demo.repository.OrderRepository;
 import com.guild.api.demo.repository.entity.OrderEntity;
+import com.guild.api.demo.service.assembler.ProductAssembler;
+import com.guild.api.demo.service.assembler.UserAssembler;
 import com.guild.api.demo.service.mapper.OrderModelMapper;
+import com.guild.api.demo.util.rxjava.AsyncResult;
+
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -40,13 +47,25 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new ResourceNotFound(format("Order ID <%s> Not Found!", orderId)));
         OrderModel orderModel = orderMapper.map(orderEntity, OrderModel.class);
 
-        UserModel user = userDao.getUser(orderEntity.getUserId());
-        LogisticsModel logistics = logisticsDao.getLogistics(orderEntity.getLogisticsId());
-        ProductModel product = productDao.getProduct(orderEntity.getProductId());
+        Single<AsyncResult<UserModel>> userAsyncResult = async(() -> userDao.getUser(orderEntity.getUserId()));
+        Single<AsyncResult<LogisticsModel>> logisticsAsyncResult = async(() -> logisticsDao.getLogistics(orderEntity.getLogisticsId()));
+        Single<AsyncResult<ProductModel>> productAsyncResult = async(() -> productDao.getProduct(orderEntity.getProductId()));
 
-        orderModel.setUser(user);
-        orderModel.setLogistics(logistics);
-        orderModel.setProduct(product);
+        Single<OrderModel> resultStream = Single.just(orderModel)
+                .zipWith(userAsyncResult, new UserAssembler())
+                .zipWith(logisticsAsyncResult, this::assembleLogistics)
+                .zipWith(productAsyncResult, new ProductAssembler())
+                .subscribeOn(Schedulers.io());
+
+        return resultStream.blockingGet();
+    }
+
+    private OrderModel assembleLogistics(OrderModel orderModel, AsyncResult<LogisticsModel> asyncResult) throws Exception {
+        if (asyncResult.hasException()) {
+            throw new RuntimeException("Logistics Error!");
+        }
+        orderModel.setLogistics(asyncResult.getValue());
         return orderModel;
     }
+
 }
