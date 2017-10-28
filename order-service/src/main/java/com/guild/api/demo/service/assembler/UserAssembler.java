@@ -1,18 +1,18 @@
 package com.guild.api.demo.service.assembler;
 
-import com.guild.api.demo.model.OrderModel;
 import com.guild.api.demo.model.UserModel;
+import com.guild.api.demo.service.model.OrderContainer;
 import com.guild.api.demo.util.rxjava.AsyncResult;
 
 import io.reactivex.functions.BiFunction;
 
-public class UserAssembler implements BiFunction<OrderModel, AsyncResult<UserModel>, OrderModel> {
+public class UserAssembler implements BiFunction<OrderContainer, AsyncResult<UserModel>, OrderContainer> {
     @Override
-    public OrderModel apply(OrderModel orderModel, AsyncResult<UserModel> asyncResult) throws Exception {
-        if (asyncResult.hasException()) {
-            throw new RuntimeException("User Error!", asyncResult.getException());
+    public OrderContainer apply(OrderContainer orderContainer, AsyncResult<UserModel> userModel) throws Exception {
+        if (userModel.hasException()) {
+            throw new RuntimeException("User Error!", userModel.getException());
         }
-        orderModel.setUser(asyncResult.getValue());
-        return orderModel;
+        orderContainer.setUser(userModel.getValue());
+        return orderContainer;
     }
 }

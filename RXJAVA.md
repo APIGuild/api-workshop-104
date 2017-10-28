@@ -4,7 +4,7 @@
 
 - Add RxJava dependencies
 ```
-compile('io.reactivex.rxjava2:rxjava:2.1.5')
+compile('io.reactivex.rxjava2:rxjava:2.1.6')
 ```
 
 - Define the AsyncResult to receive the stream result

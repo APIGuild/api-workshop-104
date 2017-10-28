@@ -9,6 +9,8 @@
 ./gradlew :order-service:bootRun
 ```
 
+Debug mode: `--debug-jvm`
+
 #### How to start a continuous build
 
 ```
