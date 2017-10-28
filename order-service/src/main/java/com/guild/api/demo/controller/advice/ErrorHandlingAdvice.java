@@ -14,17 +14,25 @@ import javax.validation.ConstraintViolationException;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.guild.api.demo.controller.error.Errors;
-import com.guild.api.demo.exception.ResourceNotFound;
+import com.guild.api.demo.exception.ResourceNotFoundException;
 
 @ControllerAdvice(annotations = RestController.class)
 @Order(Ordered.LOWEST_PRECEDENCE - 1)
 public class ErrorHandlingAdvice {
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    @ResponseStatus(BAD_REQUEST)
+    @ResponseBody
+    public Errors handleException(MissingServletRequestParameterException e) {
+        return new Errors(buildBadRequestError(e.getMessage()));
+    }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(BAD_REQUEST)
@@ -34,10 +42,10 @@ public class ErrorHandlingAdvice {
         return new Errors(buildBadRequestError(collectionToCommaDelimitedString(errors)));
     }
 
-    @ExceptionHandler(ResourceNotFound.class)
+    @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(BAD_REQUEST)
     @ResponseBody
-    public Errors handleException(ResourceNotFound e) {
-        return new Errors(buildBasicError(valueOf(NOT_FOUND.value()), "S052", "Resource Not Found", e.getMessage()));
+    public Errors handleException(ResourceNotFoundException e) {
+        return new Errors(buildBasicError(valueOf(NOT_FOUND.value()), e.getCode(), e.getTitle(), e.getMessage()));
     }
 }
