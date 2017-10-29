@@ -17,17 +17,17 @@ public class HystrixExecutor {
     private static final int DEFAULT_TIMEOUT = 30000;
 
     private String groupName;
-    private String threadPoolName;
+    private String poolName;
     private int coreSize = DEFAULT_POOL_SIZE;
     private int timeout = DEFAULT_TIMEOUT;
 
     public HystrixExecutor(String groupName) {
         this.groupName = groupName;
-        this.threadPoolName = groupName;
+        this.poolName = groupName;
     }
 
-    public HystrixExecutor withThreadPool(String threadPoolName, int coreSize) {
-        this.threadPoolName = threadPoolName;
+    public HystrixExecutor withThreadPool(String poolName, int coreSize) {
+        this.poolName = poolName;
         this.coreSize = coreSize;
         return this;
     }
@@ -40,7 +40,7 @@ public class HystrixExecutor {
     public <T> T execute(String serviceName, final Callable<T> command) {
         return new HystrixCommand<T>(withGroupKey(asKey(groupName))
                 .andCommandKey(HystrixCommandKey.Factory.asKey(serviceName))
-                .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(threadPoolName))
+                .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(poolName))
                 .andThreadPoolPropertiesDefaults(HystrixThreadPoolProperties.Setter().withCoreSize(coreSize))
                 .andCommandPropertiesDefaults(HystrixCommandProperties.Setter()
                         .withExecutionIsolationStrategy(THREAD)

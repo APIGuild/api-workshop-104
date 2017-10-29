@@ -1,5 +1,6 @@
 package com.guild.api.demo.service.assembler;
 
+import com.guild.api.demo.controller.error.ErrorBuilder;
 import com.guild.api.demo.model.ProductModel;
 import com.guild.api.demo.service.model.OrderContainer;
 import com.guild.api.demo.util.rxjava.AsyncResult;
@@ -10,9 +11,10 @@ public class ProductAssembler implements BiFunction<OrderContainer, AsyncResult<
     @Override
     public OrderContainer apply(OrderContainer orderContainer, AsyncResult<ProductModel> productModel) throws Exception {
         if (productModel.hasException()) {
-            throw new RuntimeException("Product Error!", productModel.getException());
+            orderContainer.addErrors(ErrorBuilder.buildServiceError(productModel.getException().getMessage()));
+        } else {
+            orderContainer.setProduct(productModel.getValue());
         }
-        orderContainer.setProduct(productModel.getValue());
         return orderContainer;
     }
 }

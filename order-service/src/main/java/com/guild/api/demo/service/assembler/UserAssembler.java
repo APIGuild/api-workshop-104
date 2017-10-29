@@ -1,5 +1,6 @@
 package com.guild.api.demo.service.assembler;
 
+import com.guild.api.demo.controller.error.ErrorBuilder;
 import com.guild.api.demo.model.UserModel;
 import com.guild.api.demo.service.model.OrderContainer;
 import com.guild.api.demo.util.rxjava.AsyncResult;
@@ -10,9 +11,10 @@ public class UserAssembler implements BiFunction<OrderContainer, AsyncResult<Use
     @Override
     public OrderContainer apply(OrderContainer orderContainer, AsyncResult<UserModel> userModel) throws Exception {
         if (userModel.hasException()) {
-            throw new RuntimeException("User Error!", userModel.getException());
+            orderContainer.addErrors(ErrorBuilder.buildServiceError(userModel.getException().getMessage()));
+        } else {
+            orderContainer.setUser(userModel.getValue());
         }
-        orderContainer.setUser(userModel.getValue());
         return orderContainer;
     }
 }

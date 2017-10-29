@@ -45,36 +45,39 @@ public final class AsyncResult<V> {
 
 - Create an Observable stream for User, Logistics and Product service
 ```
-Observable.create((ObservableOnSubscribe<AsyncResult<UserModel>>) subscriber -> {
-    try {
-        UserModel user = userDao.getUser(orderEntity.getUserId());
-        subscriber.onNext(AsyncResult.success(user));
-    } catch (Exception e) {
-        subscriber.onNext(AsyncResult.failed(e));
-    }
-    subscriber.onComplete();
-}).subscribeOn(Schedulers.io());
+private Observable<AsyncResult<UserModel>> getUserAsyncStream(String userId) {
+    return Observable.create((ObservableOnSubscribe<AsyncResult<UserModel>>) emitter -> {
+        try {
+            UserModel user = userDao.getUser(userId);
+            emitter.onNext(AsyncResult.success(user));
+        } catch (Exception exception) {
+            emitter.onNext(AsyncResult.failed(exception));
+        }
+        emitter.onComplete();
+    }).subscribeOn(Schedulers.io());
+}
 ```
 
 - Try to zip with all three services into one stream. This require to build an Assembler
 ```
-Single<OrderModel> resultStream = Single.just(orderModel)
-                .zipWith(userAsyncResult, new UserAssembler())
-                .zipWith(logisticsAsyncResult, this::assembleLogistics)
-                .zipWith(productAsyncResult, new ProductAssembler())
+Observable<OrderContainer> orderContainer = Observable.just(new OrderContainer())
+                .zipWith(userStream, new UserAssembler())
+                .zipWith(logisticsStream, new LogisticsAssembler())
+                .zipWith(productStream, new ProductAssembler())
                 .subscribeOn(Schedulers.io());
 ```
 
 - UserAssembler Example
 ```
-public class UserAssembler implements BiFunction<OrderModel, AsyncResult<UserModel>, OrderModel> {
+public class UserAssembler implements BiFunction<OrderContainer, AsyncResult<UserModel>, OrderContainer> {
     @Override
-    public OrderModel apply(OrderModel orderModel, AsyncResult<UserModel> asyncResult) throws Exception {
-        if (asyncResult.hasException()) {
-            throw new RuntimeException("User Error!", asyncResult.getException());
+    public OrderContainer apply(OrderContainer orderContainer, AsyncResult<UserModel> userModel) throws Exception {
+        if (userModel.hasException()) {
+            orderContainer.addErrors(ErrorBuilder.buildServiceError(userModel.getException().getMessage()));
+        } else {
+            orderContainer.setUser(userModel.getValue());
         }
-        orderModel.setUser(asyncResult.getValue());
-        return orderModel;
+        return orderContainer;
     }
 }
 ```

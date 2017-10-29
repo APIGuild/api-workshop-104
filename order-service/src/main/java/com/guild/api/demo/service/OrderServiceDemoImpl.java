@@ -27,6 +27,8 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.schedulers.Schedulers;
 
+// Question: Can we refactor the Observable template?
+
 @Service(value = "orderServiceDemo")
 public class OrderServiceDemoImpl implements OrderService {
     @Autowired
