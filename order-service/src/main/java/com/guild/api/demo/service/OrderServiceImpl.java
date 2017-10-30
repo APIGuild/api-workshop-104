@@ -1,6 +1,5 @@
 package com.guild.api.demo.service;
 
-import static com.guild.api.demo.util.rxjava.AsyncTemplate.async;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 
@@ -16,16 +15,7 @@ import com.guild.api.demo.model.ProductModel;
 import com.guild.api.demo.model.UserModel;
 import com.guild.api.demo.repository.OrderRepository;
 import com.guild.api.demo.repository.entity.OrderEntity;
-import com.guild.api.demo.service.assembler.LogisticsAssembler;
-import com.guild.api.demo.service.assembler.ProductAssembler;
-import com.guild.api.demo.service.assembler.UserAssembler;
-import com.guild.api.demo.service.mapper.OrderContainerMapper;
 import com.guild.api.demo.service.mapper.OrderModelMapper;
-import com.guild.api.demo.service.model.OrderContainer;
-import com.guild.api.demo.util.rxjava.AsyncResult;
-
-import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 
 
 @Service(value = "orderService")
@@ -44,7 +34,6 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
 
     private OrderModelMapper orderModelMapper = new OrderModelMapper();
-    private OrderContainerMapper orderContainerMapper = new OrderContainerMapper();
 
     @Override
     public OrderModel getOrder(String orderId) {
@@ -53,25 +42,15 @@ public class OrderServiceImpl implements OrderService {
 
         OrderModel orderModel = orderModelMapper.map(orderEntity, OrderModel.class);
 
-        OrderContainer orderContainer = getOrderContainerAsync(orderEntity);
+        UserModel user = userDao.getUser(orderEntity.getUserId());
+        LogisticsModel logistics = logisticsDao.getLogistics(orderEntity.getLogisticsId());
+        ProductModel product = productDao.getProduct(orderEntity.getProductId());
 
-        orderContainerMapper.map(orderContainer, orderModel);
+        orderModel.setUser(user);
+        orderModel.setLogistics(logistics);
+        orderModel.setProduct(product);
 
         return orderModel;
-    }
-
-    private OrderContainer getOrderContainerAsync(OrderEntity orderEntity) {
-        Single<AsyncResult<UserModel>> userStream = async(() -> userDao.getUser(orderEntity.getUserId()));
-        Single<AsyncResult<LogisticsModel>> logisticsStream = async(() -> logisticsDao.getLogistics(orderEntity.getLogisticsId()));
-        Single<AsyncResult<ProductModel>> productStream = async(() -> productDao.getProduct(orderEntity.getProductId()));
-
-        Single<OrderContainer> orderContainer = Single.just(new OrderContainer())
-                .zipWith(userStream, new UserAssembler())
-                .zipWith(logisticsStream, new LogisticsAssembler())
-                .zipWith(productStream, new ProductAssembler())
-                .subscribeOn(Schedulers.io());
-
-        return orderContainer.blockingGet();
     }
 
 }

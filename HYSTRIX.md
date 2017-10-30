@@ -35,8 +35,8 @@ https://github.com/Netflix/Hystrix/wiki/Configuration#intro
 compile('org.springframework.cloud:spring-cloud-starter-hystrix-dashboard')
 ```
 
-It also needs to be enabled via annotating a `@Configuration` with `@EnableHystrixDashboard`
+- It also needs to be enabled via annotating a `@Configuration` with `@EnableHystrixDashboard`
 
-Restarting the application and hit [http://localhost:8080/order-service/hystrix](http://localhost:8080/order-service/hystrix).
+- Restarting the application and hit [http://localhost:8080/order-service/hystrix](http://localhost:8080/order-service/hystrix).
 
-Put the url `http://localhost:8080/order-service/hystrix.stream` into the Dashboard monitor and view the dashboard.
+- Put the url `http://localhost:8080/order-service/hystrix.stream` into the Dashboard monitor and view the dashboard.

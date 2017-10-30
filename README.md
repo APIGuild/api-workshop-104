@@ -9,6 +9,8 @@
 ./gradlew :order-service:bootRun
 ```
 
+Install plugin in IntelliJ: `lombok`
+
 Debug mode: `--debug-jvm`
 
 #### How to start a continuous build
