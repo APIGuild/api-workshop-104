@@ -14,11 +14,19 @@ compile('org.springframework.cloud:spring-cloud-starter-hystrix')
 
 - Add @HystrixCommand and handle the HystrixRuntimeException
 ```
-@HystrixCommand(fallbackMethod = "xxx")
+@HystrixCommand(fallbackMethod = "reliable")
+public UserModel getUser(String userId) {
+  ...
+}
+
+public UserModel reliable(String userId) {
+    String info = format("User service is unavailable for now. Couldn't find the user: %s", userId);
+    return new UserModel(userId, info);
+}
 ```
 
 - Config the HystrixProperty, e.g. groupName, threadPool, coreSize and timeout
-
+https://github.com/Netflix/Hystrix/wiki/Configuration#intro
 
 #### Hystrix Dashboard
 
@@ -29,4 +37,6 @@ compile('org.springframework.cloud:spring-cloud-starter-hystrix-dashboard')
 
 It also needs to be enabled via annotating a `@Configuration` with `@EnableHystrixDashboard`
 
-Restarting the application and hit [http://localhost:8080/hystrix](http://localhost:8080/hystrix).
+Restarting the application and hit [http://localhost:8080/order-service/hystrix](http://localhost:8080/order-service/hystrix).
+
+Put the url `http://localhost:8080/order-service/hystrix.stream` into the Dashboard monitor and view the dashboard.
