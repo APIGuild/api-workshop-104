@@ -26,7 +26,25 @@ public UserModel reliable(String userId) {
 ```
 
 - Config the HystrixProperty, e.g. groupName, threadPool, coreSize and timeout
-https://github.com/Netflix/Hystrix/wiki/Configuration#intro
+```
+@HystrixCommand(groupKey = "UserService", commandKey = "retrieveUser", threadPoolKey = "retrieveUser", fallbackMethod = "reliable")
+
+# Option 1. Default Properties
+hystrix.command.default.execution.isolation.strategy=THREAD
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds=3000
+hystrix.threadpool.default.coreSize=20
+
+# Option 2. Specific Service Properties 
+hystrix.command.retrieveUser.execution.isolation.thread.timeoutInMilliseconds=3000
+hystrix.threadpool.retrieveUser.coreSize=20
+
+# Option 3. Use Annotations
+@HystrixCommand(commandProperties = { 
+    @HystrixProperty( name="execution.isolation.thread.timeoutInMilliseconds", value="${xxx.xxx.timeout}")
+})
+```
+
+For more details: https://github.com/Netflix/Hystrix/wiki/Configuration
 
 #### Hystrix Dashboard
 
@@ -40,3 +58,10 @@ It also needs to be enabled via annotating a `@Configuration` with `@EnableHystr
 Restarting the application and hit [http://localhost:8080/order-service/hystrix](http://localhost:8080/order-service/hystrix).
 
 Put the url `http://localhost:8080/order-service/hystrix.stream` into the Dashboard monitor and view the dashboard.
+
+#### Hystrix and HTTP Connections
+- Hystrix CoreSize, Connection MaxTotal and MaxPerRoute ?
+
+- Hystrix Timeout, SocketTimeOut and ConnectionTimeout ?
+
+- Best Practices

@@ -14,7 +14,7 @@ import com.netflix.hystrix.HystrixThreadPoolProperties;
 
 public class HystrixExecutor {
     private static final int DEFAULT_POOL_SIZE = 20;
-    private static final int DEFAULT_TIMEOUT = 30000;
+    private static final int DEFAULT_TIMEOUT = 10000;
 
     private String groupName;
     private String poolName;

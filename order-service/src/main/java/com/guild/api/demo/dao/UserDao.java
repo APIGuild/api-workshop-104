@@ -20,7 +20,7 @@ public class UserDao {
     @Value("${user.service.baseUrl}")
     private String baseUrl;
 
-    @HystrixCommand(fallbackMethod = "reliable")
+    @HystrixCommand(groupKey = "UserService", commandKey = "retrieveUser", threadPoolKey = "retrieveUser", fallbackMethod = "reliable")
     public UserModel getUser(String userId) {
         String url = UriComponentsBuilder
                 .fromPath(RETRIEVE_USER_URL)
