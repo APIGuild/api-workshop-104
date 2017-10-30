@@ -21,6 +21,8 @@ Debug mode: `--debug-jvm`
 
 ## Workshop Steps
 
+Please refer to the `com.guild.api.demo.service.OrderServiceImpl.java` and `com.guild.api.demo.XxxDao.java` in `order-service` module.
+
 - [RxJava](RXJAVA.md)
 - [Hystrix](HYSTRIX.md)
 
