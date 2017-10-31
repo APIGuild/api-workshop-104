@@ -59,6 +59,10 @@ Restarting the application and hit [http://localhost:8080/order-service/hystrix]
 
 Put the url `http://localhost:8080/order-service/hystrix.stream` into the Dashboard monitor and view the dashboard.
 
+
+Read more: https://github.com/Netflix/Hystrix/wiki/Dashboard#installation-of-dashboard
+
+
 #### Further more: Hystrix and HTTP Connections
 - Hystrix CoreSize, Connection MaxTotal and MaxPerRoute ?
 

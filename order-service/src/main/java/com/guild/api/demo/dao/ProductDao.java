@@ -22,7 +22,7 @@ public class ProductDao {
                 .buildAndExpand(restTemplateExecutor.getEndpointProperties().getBaseUrl(), productId).toString();
         try {
             String productInfo = restTemplateExecutor
-                    .execute("ProductService", restTemplate -> restTemplate.getForEntity(url, String.class))
+                    .execute("retrieveProduct", restTemplate -> restTemplate.getForEntity(url, String.class))
                     .getBody();
             return new ProductModel(productId, productInfo);
         } catch (Exception exception) {
