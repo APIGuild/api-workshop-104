@@ -65,6 +65,8 @@ Observable<OrderContainer> orderContainer = Observable.just(new OrderContainer()
                 .zipWith(logisticsStream, new LogisticsAssembler())
                 .zipWith(productStream, new ProductAssembler())
                 .subscribeOn(Schedulers.io());
+
+return orderContainer.blockingGet(); // Get the value of order container
 ```
 
 - UserAssembler Example

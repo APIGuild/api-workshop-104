@@ -25,8 +25,3 @@ Please refer to the `com.guild.api.demo.service.OrderServiceImpl.java` and `com.
 
 - [RxJava](RXJAVA.md)
 - [Hystrix](HYSTRIX.md)
-
-
- 
-
-
