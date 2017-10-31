@@ -17,7 +17,7 @@ public class RestEndpointProperties {
     @NotBlank
     private String name;
     @NotBlank
-    private String baserUrl;
+    private String baseUrl;
     @NotBlank
     private String username;
     @NotBlank

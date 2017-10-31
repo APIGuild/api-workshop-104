@@ -65,3 +65,5 @@ Put the url `http://localhost:8080/order-service/hystrix.stream` into the Dashbo
 - Hystrix Timeout, SocketTimeOut and ConnectionTimeout ?
 
 - Best Practices
+
+Checkout the code `com.guild.api.demo.util.rest.PooledRestTemplateBuilder.java` for more details.
