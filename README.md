@@ -21,8 +21,3 @@ Debug mode: `--debug-jvm`
 
 - [RxJava](RXJAVA.md)
 - [Hystrix](HYSTRIX.md)
-
-
- 
-
-
