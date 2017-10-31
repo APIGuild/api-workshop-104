@@ -59,7 +59,7 @@ Restarting the application and hit [http://localhost:8080/order-service/hystrix]
 
 Put the url `http://localhost:8080/order-service/hystrix.stream` into the Dashboard monitor and view the dashboard.
 
-#### Hystrix and HTTP Connections
+#### Further more: Hystrix and HTTP Connections
 - Hystrix CoreSize, Connection MaxTotal and MaxPerRoute ?
 
 - Hystrix Timeout, SocketTimeOut and ConnectionTimeout ?

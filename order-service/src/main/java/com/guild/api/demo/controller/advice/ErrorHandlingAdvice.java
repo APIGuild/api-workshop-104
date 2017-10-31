@@ -48,4 +48,6 @@ public class ErrorHandlingAdvice {
     public Errors handleException(ResourceNotFoundException e) {
         return new Errors(buildBasicError(valueOf(NOT_FOUND.value()), e.getCode(), e.getTitle(), e.getMessage()));
     }
+
+    // TODO: Add other exception handler...
 }
