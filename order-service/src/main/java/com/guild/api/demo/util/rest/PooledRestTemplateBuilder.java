@@ -1,9 +1,5 @@
 package com.guild.api.demo.util.rest;
 
-import static com.google.common.collect.Lists.newArrayList;
-
-import java.util.List;
-
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
@@ -12,7 +8,6 @@ import org.apache.http.impl.NoConnectionReuseStrategy;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import com.guild.api.demo.util.hystrix.HystrixExecutor;
@@ -39,9 +34,7 @@ public class PooledRestTemplateBuilder {
                 endpointProperties.getTimeout()
         );
 
-        RestTemplate restTemplate = new RestTemplate(requestFactory);
-        installInterceptors(restTemplate);
-        return restTemplate;
+        return new RestTemplate(requestFactory);
     }
 
     private HystrixExecutor buildHystrixExecutor() {
@@ -74,13 +67,5 @@ public class PooledRestTemplateBuilder {
 
         return new HttpComponentsClientHttpRequestFactory(httpClient);
 
-    }
-
-    private void installInterceptors(RestTemplate restTemplate) {
-        List<ClientHttpRequestInterceptor> interceptors = newArrayList();
-        List<ClientHttpRequestInterceptor> currentInterceptors = restTemplate.getInterceptors();
-        if (currentInterceptors != null) {
-            interceptors.addAll(currentInterceptors);
-        }
     }
 }
